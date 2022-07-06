@@ -15,10 +15,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     public DbSet<Client> Clients { get; set; }
     public DbSet<Technician> Technicians { get; set; }
     public DbSet<Answer> Answers { get; set; }
+    public DbSet<Appointment> Appointments { get; set; }
     public DbSet<Article> Articles { get; set; }
-    public DbSet<Comment> Comments { get; set; }
+    public DbSet<Invoice> Invoices { get; set; }
     public DbSet<Issue> Issues { get; set; }
-    public DbSet<LikeArticle> LikeArticles { get; set; }
+    public DbSet<Part> Parts { get; set; }
     public DbSet<Question> Questions { get; set; }
     public DbSet<Reply> Replies { get; set; }
 
@@ -31,8 +32,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
         //     .HasOne(a => a.Review)
         //     .WithOne(r => r.Appointment)
         //     .HasForeignKey<Appointment>(a => a.ReviewId);
-
-        builder.Entity<LikeArticle>().HasKey(cal => new { cal.ArticleId, cal.UserId });
 
         builder.SeedRoles();
     }

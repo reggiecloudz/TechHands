@@ -22,14 +22,5 @@ namespace TechHands.Api.Data.Entities
         public string Content { get; set; }
 
         public string Picture { get; set; }
-
-        [Required]
-        public string TechnicianId { get; set; }
-
-        public virtual Technician Technician { get; set; }
-
-        public virtual ICollection<LikeArticle> Likes { get; set; } = new List<LikeArticle>();
-
-        public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
     }
 }

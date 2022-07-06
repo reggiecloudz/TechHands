@@ -11,8 +11,8 @@ using TechHands.Api.Data;
 namespace TechHands.Api.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220706053433_Start")]
-    partial class Start
+    [Migration("20220706183828_New")]
+    partial class New
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,22 +47,22 @@ namespace TechHands.Api.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "47abea1f-8b96-4bd5-8d2a-c26bdd0a2a4d",
-                            ConcurrencyStamp = "dc299fcc-b6b2-44db-8524-443e2c8f2ae6",
+                            Id = "ff0910cf-05bf-44c7-9325-7626826342fe",
+                            ConcurrencyStamp = "b2b98c60-e0b0-4611-91bc-e29167145e0a",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "29174790-1261-47d8-8802-366f3f35cc74",
-                            ConcurrencyStamp = "165b2b3f-3e5c-443b-888c-c8c2398219ba",
+                            Id = "b2fd23f1-ebf7-46b0-b6fa-43127e20e69e",
+                            ConcurrencyStamp = "2680e50d-2649-428c-b7de-6944164842b5",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         },
                         new
                         {
-                            Id = "f9eb403a-755c-4e83-a027-f6c12300462e",
-                            ConcurrencyStamp = "2ca2a102-9e0a-46f2-941a-c94211c7d837",
+                            Id = "69b59dd7-85c6-4499-bf7d-b7fa7addc33d",
+                            ConcurrencyStamp = "6f874c82-d2ce-44e5-889d-6e1ae5c1c89f",
                             Name = "Technician",
                             NormalizedName = "TECHNICIAN"
                         });
@@ -279,6 +279,46 @@ namespace TechHands.Api.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("TechHands.Api.Data.Entities.Appointment", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ClientId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("IssueId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("MeetinDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TechnicianId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("IssueId");
+
+                    b.HasIndex("TechnicianId");
+
+                    b.ToTable("Appointments");
+                });
+
             modelBuilder.Entity("TechHands.Api.Data.Entities.Article", b =>
                 {
                     b.Property<long>("Id")
@@ -296,10 +336,6 @@ namespace TechHands.Api.Data.Migrations
                     b.Property<string>("Picture")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("TechnicianId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -312,8 +348,6 @@ namespace TechHands.Api.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TechnicianId");
 
                     b.ToTable("Articles");
                 });
@@ -339,25 +373,36 @@ namespace TechHands.Api.Data.Migrations
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("TechHands.Api.Data.Entities.Comment", b =>
+            modelBuilder.Entity("TechHands.Api.Data.Entities.Invoice", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("ArticleId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("AuthorId")
+                    b.Property<string>("ClientId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(1000)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("IssueId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("PartsCost")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TechnicianId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<uint>("TimeBilled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Total")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Updated")
@@ -365,11 +410,13 @@ namespace TechHands.Api.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArticleId");
+                    b.HasIndex("ClientId");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("IssueId");
 
-                    b.ToTable("Comments");
+                    b.HasIndex("TechnicianId");
+
+                    b.ToTable("Invoices");
                 });
 
             modelBuilder.Entity("TechHands.Api.Data.Entities.Issue", b =>
@@ -387,6 +434,12 @@ namespace TechHands.Api.Data.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("EndWorkTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("HourlyRate")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime?>("ResolvedDate")
                         .HasColumnType("TEXT");
 
@@ -394,6 +447,12 @@ namespace TechHands.Api.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("StartDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("StartWorkTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Status")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Subject")
@@ -414,19 +473,43 @@ namespace TechHands.Api.Data.Migrations
                     b.ToTable("Issues");
                 });
 
-            modelBuilder.Entity("TechHands.Api.Data.Entities.LikeArticle", b =>
+            modelBuilder.Entity("TechHands.Api.Data.Entities.Part", b =>
                 {
-                    b.Property<long>("ArticleId")
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("UserId")
+                    b.Property<decimal>("Cost")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("ArticleId", "UserId");
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
 
-                    b.HasIndex("UserId");
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
 
-                    b.ToTable("LikeArticles");
+                    b.Property<long>("InvoiceId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("IssueId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<uint>("Quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.HasIndex("IssueId");
+
+                    b.ToTable("Parts");
                 });
 
             modelBuilder.Entity("TechHands.Api.Data.Entities.Question", b =>
@@ -591,13 +674,29 @@ namespace TechHands.Api.Data.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("TechHands.Api.Data.Entities.Article", b =>
+            modelBuilder.Entity("TechHands.Api.Data.Entities.Appointment", b =>
                 {
+                    b.HasOne("TechHands.Api.Data.Entities.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TechHands.Api.Data.Entities.Issue", "Issue")
+                        .WithMany()
+                        .HasForeignKey("IssueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TechHands.Api.Data.Entities.Technician", "Technician")
-                        .WithMany("Articles")
+                        .WithMany("Appointments")
                         .HasForeignKey("TechnicianId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Issue");
 
                     b.Navigation("Technician");
                 });
@@ -611,23 +710,31 @@ namespace TechHands.Api.Data.Migrations
                     b.Navigation("Identity");
                 });
 
-            modelBuilder.Entity("TechHands.Api.Data.Entities.Comment", b =>
+            modelBuilder.Entity("TechHands.Api.Data.Entities.Invoice", b =>
                 {
-                    b.HasOne("TechHands.Api.Data.Entities.Article", "Article")
-                        .WithMany("Comments")
-                        .HasForeignKey("ArticleId")
+                    b.HasOne("TechHands.Api.Data.Entities.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TechHands.Api.Data.Entities.ApplicationUser", "Author")
-                        .WithMany("Comments")
-                        .HasForeignKey("AuthorId")
+                    b.HasOne("TechHands.Api.Data.Entities.Issue", "Issue")
+                        .WithMany()
+                        .HasForeignKey("IssueId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Article");
+                    b.HasOne("TechHands.Api.Data.Entities.Technician", "Technician")
+                        .WithMany()
+                        .HasForeignKey("TechnicianId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Author");
+                    b.Navigation("Client");
+
+                    b.Navigation("Issue");
+
+                    b.Navigation("Technician");
                 });
 
             modelBuilder.Entity("TechHands.Api.Data.Entities.Issue", b =>
@@ -645,23 +752,23 @@ namespace TechHands.Api.Data.Migrations
                     b.Navigation("Technician");
                 });
 
-            modelBuilder.Entity("TechHands.Api.Data.Entities.LikeArticle", b =>
+            modelBuilder.Entity("TechHands.Api.Data.Entities.Part", b =>
                 {
-                    b.HasOne("TechHands.Api.Data.Entities.Article", "Article")
-                        .WithMany("Likes")
-                        .HasForeignKey("ArticleId")
+                    b.HasOne("TechHands.Api.Data.Entities.Invoice", "Invoice")
+                        .WithMany("Parts")
+                        .HasForeignKey("InvoiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TechHands.Api.Data.Entities.ApplicationUser", "User")
-                        .WithMany("Likes")
-                        .HasForeignKey("UserId")
+                    b.HasOne("TechHands.Api.Data.Entities.Issue", "Issue")
+                        .WithMany("Parts")
+                        .HasForeignKey("IssueId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Article");
+                    b.Navigation("Invoice");
 
-                    b.Navigation("User");
+                    b.Navigation("Issue");
                 });
 
             modelBuilder.Entity("TechHands.Api.Data.Entities.Question", b =>
@@ -716,25 +823,24 @@ namespace TechHands.Api.Data.Migrations
                 {
                     b.Navigation("Answers");
 
-                    b.Navigation("Comments");
-
-                    b.Navigation("Likes");
-
                     b.Navigation("Questions");
 
                     b.Navigation("Replies");
                 });
 
-            modelBuilder.Entity("TechHands.Api.Data.Entities.Article", b =>
-                {
-                    b.Navigation("Comments");
-
-                    b.Navigation("Likes");
-                });
-
             modelBuilder.Entity("TechHands.Api.Data.Entities.Client", b =>
                 {
                     b.Navigation("Issues");
+                });
+
+            modelBuilder.Entity("TechHands.Api.Data.Entities.Invoice", b =>
+                {
+                    b.Navigation("Parts");
+                });
+
+            modelBuilder.Entity("TechHands.Api.Data.Entities.Issue", b =>
+                {
+                    b.Navigation("Parts");
                 });
 
             modelBuilder.Entity("TechHands.Api.Data.Entities.Question", b =>
@@ -749,7 +855,7 @@ namespace TechHands.Api.Data.Migrations
 
             modelBuilder.Entity("TechHands.Api.Data.Entities.Technician", b =>
                 {
-                    b.Navigation("Articles");
+                    b.Navigation("Appointments");
 
                     b.Navigation("Issues");
                 });
