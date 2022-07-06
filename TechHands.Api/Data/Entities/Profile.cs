@@ -13,6 +13,6 @@ namespace TechHands.Api.Data.Entities
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string IdentityId { get; set; }
-        public IdentityUser Identity { get; set; }
+        public ApplicationUser Identity { get; set; }
     }
 }
