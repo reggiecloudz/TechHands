@@ -19,6 +19,7 @@ namespace TechHands.Api.Data.Entities
         public string StartWorkTime { get; set; }
         public string EndWorkTime { get; set; }
         public decimal HourlyRate { get; set; } = 0.00m;
+        public bool OpenToCommunity { get; set; } = false;
         public string ClientId { get; set; }
         public Client Client { get; set; }
 
